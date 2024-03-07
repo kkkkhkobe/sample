@@ -1,0 +1,25 @@
+package com.example.demo.repository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.example.demo.entity.StockEntity;
+import com.example.demo.form.ItemRegisterForm;
+
+@Repository
+public class StockRepository {
+
+	@Autowired
+	JdbcTemplate template;
+
+	public StockEntity insert(ItemRegisterForm form) {
+		StockEntity entity = new StockEntity();
+		String sql = "";
+		sql += "INSERT INTO product (material_id, material_stock, regular_price) "
+				+ "SELECT MAX(material_id), ?, ? FROM material";
+		template.update(sql, form.getMaterial_stock(), form.getRegular_price());
+
+		return entity;
+	}
+}

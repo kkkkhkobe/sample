@@ -1,0 +1,87 @@
+package com.example.demo.controller;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.example.demo.form.ItemForm;
+import com.example.demo.form.ItemRegisterForm;
+import com.example.demo.repository.ItemRepository;
+import com.example.demo.repository.StockRepository;
+
+@SpringBootTest
+class ItemRegisterControllerTest {
+
+	@MockBean
+	StockRepository repository;
+
+	@MockBean
+	ItemRepository repo;
+
+	@Autowired
+	ItemRegisterController regi;
+
+	ItemForm form = new ItemForm();
+
+	MockMvc mock;
+
+	@BeforeEach
+	void setup() {
+		this.mock = MockMvcBuilders.standaloneSetup(regi).build();
+	}
+
+	//正常パターン
+
+	@Test
+	void testRegi1_1() throws Exception {
+
+		mock.perform(get("/item_regi"))
+				.andExpect(model().attribute("form", form))
+				.andExpect(view().name("register"));
+	}
+
+	//HTTPステータス405の場合
+
+	@Test
+	void testRegi1_2() throws Exception {
+		mock.perform(post("/item_regi"))
+				.andExpect(status().isMethodNotAllowed());
+	}
+
+	//validationに該当した場合
+
+	@Test
+	void testRegister1_1() throws Exception {
+		ItemRegisterForm form1 = new ItemRegisterForm();
+
+		mock.perform(get("/register").flashAttr("form", form1))
+				.andExpect(model().hasErrors())
+				.andExpect(model().attribute("form", form1))
+				.andExpect(view().name("register.html"));
+	}
+
+	//正常に商品登録できる
+
+	@Test
+	@Transactional
+	void testRegister1_2() throws Exception {
+		ItemRegisterForm form1 = new ItemRegisterForm();
+
+		form1.setMaterial_name("塚田");
+		form1.setRegular_price("1000");
+
+		mock.perform(get("/register").param("material_name", "塚田").param("regular_price", "1000"))
+				.andExpect(model().hasNoErrors())
+				.andExpect(view().name("message"));
+
+	}
+
+}

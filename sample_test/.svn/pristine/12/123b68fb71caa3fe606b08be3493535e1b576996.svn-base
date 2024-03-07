@@ -1,0 +1,97 @@
+@charset "UTF-8";
+
+.search_title {
+	margin-left: 50px;
+}
+
+.form_block {
+	text-align: center;
+	margin: 0 auto;
+}
+
+.error_message {
+	border: 1px solid red;
+	background-color: lightpink;
+	width: 450px;
+	font-size: 22px;
+	font-weight: bold;
+	margin: 10px auto;
+	text-align: center;
+}
+
+.search_table {
+	text-align: center;
+	margin: 10px auto;
+	border: 1px solid black;
+	border-collapse: collapse;
+	width: 450px;
+	font-weight: bold;
+}
+
+.item_komoku {
+	background-color: lightgray;
+}
+
+.送信 {
+	margin-top: 10px;
+	margin-right: 50px;
+	width: 76px;
+}
+
+.text {
+	width: 250px;
+}
+
+.userTable {
+	margin: 20px auto;
+	text-align: center;
+}
+
+.datatable {
+	margin: 20px auto;
+	text-align: center;
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+.newregi {
+	text-align: center;
+	margin-top: -26px;
+	margin-left: 110px;
+}
+
+.id {
+	width: 150px;
+}
+
+.name {
+	width: 300px;
+}
+
+.address {
+	width: 500px;
+}
+
+.age {
+	width: 100px;
+}
+
+.department {
+	width: 400px;
+}
+
+.controller {
+	width: 100px;
+}
+
+td,
+tr,
+th {
+	border: 1px solid black;
+	height: 40px;
+	font-size: 20px;
+}
+
+.tableHeader {
+	background-color: lightgray;
+}

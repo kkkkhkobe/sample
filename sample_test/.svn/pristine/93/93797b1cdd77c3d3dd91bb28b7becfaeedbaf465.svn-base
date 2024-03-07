@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head th:fragment="header">
+	<meta charset=" UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/css/header.css}">
+</head>
+
+<body>
+
+
+	<header>
+		<div class="header">
+
+			<h1 class="sample_title">社内案件練習</h1>
+			<ul>
+				<li><a th:href="@{/}">メニュー</a></li>
+				<li><a th:href="@{/user}">顧客検索</a></li>
+				<li><a th:href="@{/item}">商品検索</a></li>
+			</ul>
+
+		</div>
+
+	</header>
+
+</body>
+
+</html>

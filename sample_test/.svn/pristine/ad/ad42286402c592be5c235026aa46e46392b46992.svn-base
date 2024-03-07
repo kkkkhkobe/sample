@@ -1,0 +1,89 @@
+package com.example.demo.repository;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
+
+import com.example.demo.entity.ItemEntity;
+import com.example.demo.form.ItemForm;
+import com.example.demo.form.ItemRegisterForm;
+/*
+ * クラス名 :ItemRepository
+ * 
+ * 作成日　:2024/02/28
+ * 作成者　:塚田晃介
+ * 最終更新日　:2024/02/28
+ * 最終更新日　:塚田晃介
+ * 
+ * Copyright(C) AIOSL Technology All Rights Reserved.
+ */
+
+@Repository
+public class ItemRepository {
+
+	@Autowired
+	JdbcTemplate template;
+
+	public List<ItemEntity> search(ItemForm form) {
+		String id = form.getMaterial_id();
+		String name = form.getMaterial_name();
+		String price = form.getRegular_price();
+		String stock = form.getMaterial_stock();
+
+		String sql = "";
+		sql += "SELECT m.material_id, m.material_name, p.regular_price, .p.material_stock "
+				+ "FROM material AS m "
+				+ "RIGHT OUTER JOIN product AS p "
+				+ "ON m.material_id = p.material_id "
+				+ "WHERE deleted_flg = 0 ";
+		if (!StringUtils.isEmpty(id)) {
+			sql += "AND m.material_id LIKE '%" + id + "%' ";
+		}
+		if (!StringUtils.isEmpty(name)) {
+			sql += "AND m.material_name LIKE '%" + name + "%' ";
+		}
+		if (!StringUtils.isEmpty(price)) {
+			sql += "AND p.regular_price LIKE '%" + price + "%' ";
+		}
+		if (!StringUtils.isEmpty(stock)) {
+			sql += "AND p.material_stockLIKE '%" + stock + "%' ";
+		}
+		List<ItemEntity> list = template.query(sql, new BeanPropertyRowMapper<ItemEntity>(ItemEntity.class));
+		return list;
+	}
+	
+	public List<ItemEntity> find(Integer id){
+		String sql = "";
+		sql += "SELECT m.material_name, p.regular_price, p.material_stock "
+				+ "FROM material AS m "
+				+ "RIGHT OUTER JOIN product AS p "
+				+ "ON m.material_id = p.material_id "
+				+ "WHERE m.material_id = " + id ;
+		List<ItemEntity> list = template.query(sql, new BeanPropertyRowMapper<ItemEntity>(ItemEntity.class));
+		return list;
+	}
+
+	public ItemEntity insert(ItemRegisterForm form) {
+		ItemEntity entity = new ItemEntity();
+		String sql = "";
+		sql += "INSERT INTO material (material_name, material_text) "
+				+ "VALUES( ?, ?) ";
+		template.update(sql, form.getMaterial_name(), form.getMaterial_text());
+
+		return entity;
+	}
+
+	public void update(Integer id) {
+		String sql = "";
+		sql += "UPDATE product "
+				+ "SET deleted_flg = 1 "
+				+ "WHERE material_id = ? ";
+
+		template.update(sql, id);
+	}
+
+}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/css/user.css}">
+</head>
+
+<body bgcolor="#EEFFFF">
+	<div th:replace="~{iframe/header::header}"></div>
+
+
+	<div class="search_title">
+		<h1>■顧客検索</h1>
+	</div>
+
+	<div th:if="${error}" th:each="error:${error}" class="error_message">
+		<label th:text="${error}"></label>
+	</div>
+	<div class="form_block">
+
+		<form method="get" th:action="@{search}" th:object="${search}">
+			<table class="search_table">
+				<tr>
+					<td class="item_komoku">
+						<label class="material_id">顧客ID</label>
+					</td>
+					<td class="search_td">
+						<input type="text" th:field="*{user_id}" class="text">
+					</td>
+				</tr>
+				<tr>
+					<td class="item_komoku">
+						<label class="material_name">顧客名</label>
+					</td>
+					<td class="search_td">
+						<input type="text" th:field="*{user_name}" class="text">
+					</td>
+				</tr>
+				<tr>
+					<td class="item_komoku">
+						<label class="searchAddress">住所</label>
+					</td>
+					<td class="search_td">
+						<input type="text" th:field="*{user_address}" class="text">
+					</td>
+				</tr>
+				<tr>
+					<td class="item_komoku">
+						<label class="searchage">年齢</label>
+					</td>
+					<td class="search_td">
+						<input type="text" th:field="*{user_age}" class="text">
+					</td>
+				</tr>
+				<tr>
+					<td class="item_komoku">
+						<label class="searchDepartment">性別</label>
+					</td>
+					<td class="search_td">
+						<div th:each="item : ${radioGender}" class="form-check-inline">
+							<label><input type="radio" th:field="*{gender}" th:value="${item.key}"
+									th:text="${item.value}"></label>
+						</div>
+					</td>
+				</tr>
+			</table>
+			<button class="送信" type="submit">検索</button>
+		</form>
+	</div>
+
+	<div class="newregi">
+		<button onclick="location.href='http://localhost:8080/insert'">新規登録</button>
+	</div>
+
+	<div class="userTable">
+		<table class="datatable" th:if="${table}" id="result_table">
+			<tr class="tableHeader">
+				<th class="id">顧客ID</th>
+				<th class="name">顧客名</th>
+				<th class="address">住所</th>
+				<th class="age">年齢</th>
+				<th class="department">職業</th>
+				<th class="gender">性別</th>
+			</tr>
+			<tr th:each="list:${data}" th:object="${object}">
+				<td th:text="${list.user_id}"></td>
+				<td th:text="${list.user_name}"></td>
+				<td th:text="${list.user_address}"></td>
+				<td th:text="${list.user_age}"></td>
+				<td th:text="${list.department}"></td>
+				<td th:text="${list.gender}"></td>
+			</tr>
+		</table>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<script th:src="@{/js/item.js}"></script>
+
+</body>
+
+</html>
