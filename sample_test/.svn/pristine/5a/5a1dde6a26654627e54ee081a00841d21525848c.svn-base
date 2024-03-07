@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+h1 {
+	text-align: center;
+	margin: 50px auto;
+}
+
+.link {
+	text-align: center;
+	margin: 0px auto;
+}
+
+a {
+	margin-left: 20px;
+	font-size: 20px;
+}

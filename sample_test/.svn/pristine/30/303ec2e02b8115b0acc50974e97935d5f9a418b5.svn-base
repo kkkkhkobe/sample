@@ -1,0 +1,65 @@
+@charset "UTF-8";
+
+.title {
+	margin-left: 50px;
+}
+
+.insert_title {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.errormessage {
+	border: 1px solid red;
+	background-color: lightpink;
+	width: 450px;
+	font-size: 22px;
+	font-weight: bold;
+	margin: 10px auto;
+	text-align: center;
+}
+
+.insert_form {
+	width: 450px;
+	height: 200px;
+	border: 1px solid black;
+	border-collapse: collapse;
+	margin: 20px auto;
+
+}
+
+.user_text{
+	background-color: white;
+}
+
+tr,
+td {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+.user_item {
+	background-color: lightgray;
+	font-weight: bold;
+	font-size: 20px;
+	width: 89px;
+}
+
+.text {
+	width: 250px;
+}
+
+.form-check-inline{
+	display: inline-block;
+}
+
+
+.送信 {
+	margin-right: 90px;
+	width: 72px;
+}
+
+.menu {
+	margin-top: -26px;
+	margin-left: 90px;
+}

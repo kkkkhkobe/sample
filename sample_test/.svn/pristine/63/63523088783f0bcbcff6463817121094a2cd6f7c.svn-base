@@ -1,0 +1,67 @@
+package com.example.demo.controller;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import com.example.demo.form.UserForm;
+import com.example.demo.form.UserInsertForm;
+import com.example.demo.repository.UserRepository;
+
+@SpringBootTest
+class InsertControllerTest {
+
+	@MockBean
+	UserRepository repository;
+
+	@Autowired
+	InsertController controller;
+
+	MockMvc mock;
+
+	UserForm form = new UserForm();
+
+	UserInsertForm form1 = new UserInsertForm();
+
+	@BeforeEach
+	void setup() {
+		mock = MockMvcBuilders.standaloneSetup(controller).build();
+	}
+
+	@Test
+	void testInsert1_1() throws Exception {
+		mock.perform(get("/insert").flashAttr("userForm", form))
+				.andExpect(model().attribute("userForm", form))
+				.andExpect(view().name("insert.html"));
+
+	}
+
+	@Test
+	void testInsert1_1_1() throws Exception {
+		mock.perform(get("/insert1").param("user_name", ""))
+				.andExpect(model().attributeHasErrors("userInsertForm"))
+				.andExpect(model().errorCount(1))
+				.andExpect(status().isOk())
+				.andExpect(view().name("insert"));
+	}
+
+	@Test
+	void testInsert1_1_2() throws Exception {
+		form1.setUser_name("Cくん");
+
+		mock.perform(get("/insert1").param("user_name", "Cくん"))
+				.andExpect(model().hasNoErrors())
+				.andExpect(model().attribute("userInsertForm", form1))
+				.andExpect(status().isOk())
+				.andExpect(view().name("message"));
+
+	}
+
+}

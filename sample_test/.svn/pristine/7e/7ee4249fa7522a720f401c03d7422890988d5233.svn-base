@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/css/deletion.css}">
+</head>
+
+<body>
+	<div th:replace="~{iframe/header::header}"></div>
+
+
+	<div class="deletion">
+		<h1>削除商品一覧</h1>
+	</div>
+	<div class="message" th:if="${delete_item}">
+		<b><label>削除商品はありません。</label></b>
+		<a th:href="@{/}" class="link">戻る</a>
+	</div>
+
+	<table class="deletion_table" th:if="${table}">
+		<tr>
+			<th>商品ID</th>
+			<th>商品名</th>
+			<th>価格</th>
+			<th>在庫数</th>
+			<th>操作</th>
+		</tr>
+		<tr th:each="list:${data}">
+			<td th:text="${list.material_id}"></td>
+			<td th:text="${list.material_name}"></td>
+			<td th:text="${list.regular_price}"></td>
+			<td th:text="${list.material_stock}"></td>
+			<td>
+				<a th:href="@{/sign/{id}(id=${list.material_id})}">復元</a>
+				<a th:href="@{/delete/{id}(id=${list.material_id})}">削除</a>
+			</td>
+		</tr>
+	</table>
+	</div>
+</body>
+
+</html>

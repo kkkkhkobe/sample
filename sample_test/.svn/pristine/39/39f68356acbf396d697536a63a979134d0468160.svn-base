@@ -1,0 +1,74 @@
+package com.example.demo.controller;
+
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import com.example.demo.entity.ItemEntity;
+import com.example.demo.repository.ItemRepository;
+
+@SpringBootTest
+class DeleteControllerTest {
+
+	@MockBean
+	ItemRepository repository;
+
+	@Autowired
+	DeleteController controller;
+
+	MockMvc mock;
+
+	@BeforeEach
+	void setup() {
+		mock = MockMvcBuilders.standaloneSetup(controller).build();
+	}
+	
+
+	/**
+	 * @throws Exception 例外処理
+	 * URLパスが渡されているかのテスト
+	 * 商品削除画面遷移のテスト
+	 * beanクラスへの格納テスト
+	 * 
+	 */
+	@Test
+	void testDel1_1() throws Exception {
+		Integer id = 1;
+		List<ItemEntity> list = repository.find(id);
+
+		mock.perform(get("/item_del/{id}", id))
+				.andExpect(model().attribute("material_id", id))
+				.andExpect(model().attribute("data", list))
+				.andExpect(status().isOk())
+				.andExpect(view().name("delete"));
+
+		verify(repository, times(2)).find(id);
+	}
+
+	/**
+	 * @throws Exception　例外処理
+	 * httpステータスの正常テスト
+	 * 完了画面遷移テスト
+	 * リポジトリクラスのUpdateメソッドの呼び出し回数
+	 */
+	@Test
+	void testDel1_1_1() throws Exception {
+		Integer id = 1;
+		mock.perform(get("/del/{id}", id))
+				.andExpect(status().isOk())
+				.andExpect(view().name("message"));
+
+		verify(repository, times(1)).update(id);
+	}
+
+}

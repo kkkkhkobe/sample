@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/css/register.css}">
+</head>
+
+<body>
+	<div th:replace="~{iframe/header::header}"></div>
+
+	<div class="regi_ti">
+		<h1>商品登録</h1>
+	</div>
+	<div th:if="${error}" th:each="error:${error}" class="error_message">
+		<lable th:text="${error}"></lable>
+	</div>
+	<div class="register_title">
+		<form method="get" th:action="@{/register}" th:object="${form}">
+			<table class="register_table">
+				<tr>
+					<td class="cell">
+						商品名
+					</td>
+					<td>
+						<input type="text" th:field="*{material_name}" class="text">
+					</td>
+				</tr>
+				<tr>
+					<td class="cell">
+						商品説明
+					</td>
+					<td>
+						<input type="text" th:field="*{material_text}" class="text">
+					</td>
+				</tr>
+				<tr>
+					<td class="cell">
+						販売価格
+					</td>
+					<td>
+						<input type="text" th:field="*{regular_price}" class="text">
+					</td>
+				</tr>
+				<tr>
+					<td class="cell">
+						在庫数
+					</td>
+					<td>
+						<input type="text" th:field="*{material_stock}" class="text">
+					</td>
+				</tr>
+			</table>
+			<div class="register_button">
+				<button type="submit" class="button">登録</button>
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>

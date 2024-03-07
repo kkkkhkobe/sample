@@ -1,0 +1,48 @@
+package com.example.demo.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.example.demo.entity.ItemEntity;
+import com.example.demo.service.ItemService;
+
+/**
+ * クラス名 :DeletionController
+ * 
+ * 作成日　:2024/02/27
+ * 作成者　:塚田晃介
+ * 最終更新日　:2024/02/27
+ * 最終更新日　:塚田晃介
+ * 
+ * Copyright(C) AIOSL Technology All Rights Reserved.
+ */
+
+@Controller
+public class DeletionController {
+
+	@Autowired
+	ItemService service;
+
+	/**
+	 * @param model Modelのインスタンス
+	 * @return 削除一覧画面へ画面遷移
+	 */
+	@GetMapping("/item_delete")
+	public String del(Model model) {
+		List<ItemEntity> list = service.find();
+
+		if (CollectionUtils.isEmpty(list)) {
+			model.addAttribute("delete_item", true);
+			return "deletion";
+		}
+		model.addAttribute("data", list);
+		model.addAttribute("table", true);
+		return "deletion";
+	}
+
+}

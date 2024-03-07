@@ -1,0 +1,48 @@
+package com.example.demo.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.entity.ItemEntity;
+import com.example.demo.form.ItemForm;
+import com.example.demo.repository.DeletionMapper;
+/*
+ * クラス名 :ItemService
+ * 
+ * 作成日　:2024/02/28
+ * 作成者　:塚田晃介
+ * 最終更新日　:2024/02/28
+ * 最終更新日　:塚田晃介
+ * 
+ * Copyright(C) AIOSL Technology All Rights Reserved.
+ */
+
+@Service
+public class ItemService {
+	
+	@Autowired
+	DeletionMapper mapper;
+	
+	public List<ItemEntity> find(){
+		return mapper.findAll();
+	}
+	
+	public void update(Integer id) {
+		mapper.update(id);
+	}
+	
+	public void item_update(Integer id, ItemForm form) {
+		mapper.item_update(id, form.getMaterial_name());
+	}
+	
+	public void item_update_stock(Integer id, ItemForm form) {
+		mapper.item_update_stock(id, form.getRegular_price(), form.getMaterial_stock());
+	}
+	
+	public void delete(Integer id) {
+		mapper.delete(id);
+	}
+
+}

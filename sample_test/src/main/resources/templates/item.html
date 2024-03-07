@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/css/item.css}">
+</head>
+
+<body bgcolor="#EEFFFF">
+	<div th:replace="~{iframe/header::header}"></div>
+	<div class="title">
+		<h1>■商品検索</h1>
+	</div>
+	<div th:if="${error}" th:each="error:${error}" class="error_message">
+		<label th:text="${error}"></label>
+	</div>
+	<div class="search_title">
+
+		<form method="get" th:action="@{/result}" th:object="${form}">
+
+			<table class="item_search">
+				<tr>
+					<td class="item_td"><label class="cell">商品ID</label></td>
+					<td class="item_text"><input type="text" th:field="*{material_id}" class="text"></td>
+				</tr>
+				<tr>
+					<td class="item_td"><label class="cell">商品名</label></td>
+					<td class="item_text"><input type="text" th:field="*{material_name}" class="text"></td>
+				</tr>
+				<tr>
+					<td class="item_td"><label>商品価格</label></td>
+					<td class="item_text"><input type="text" th:field="*{regular_price}" class="text"></td>
+				</tr>
+				<tr>
+					<td class="item_td"><label>商品在庫</label></td>
+					<td class="item_text"><input type="text" th:field="*{material_stock}" class="text"></td>
+				</tr>
+
+			</table>
+			<button type="submit" class="検索">検索</button>
+		</form>
+	</div>
+
+	<div class="regi_button">
+		<button onclick="location.href='http://localhost:8080/item_regi'">新規登録</button>
+	</div>
+
+	<table class="result_table" th:if="${table}">
+		<form method="get" th:action="@{/item_del}" th:object="${ItemForm}">
+
+			<tr>
+				<th>商品ID</th>
+				<th>商品名</th>
+				<th>価格</th>
+				<th>在庫数</th>
+				<th>操作</th>
+			</tr>
+			<tr th:each="list:${data}" id="tr">
+				<td th:text="${list.material_id}"></td>
+				<td th:text="${list.material_name}"></td>
+				<td th:text="${list.regular_price}" class="regular_price"></td>
+				<td th:text="${list.material_stock}"></td>
+				<td>
+					<a th:href="@{/item_mod/{id}(id=${list.material_id})}">修正</a>
+					<a th:href="@{/item_del/{id}(id=${list.material_id})}">削除</a>
+				</td>
+			</tr>
+		</form>
+
+	</table>
+</body>
+
+</html>

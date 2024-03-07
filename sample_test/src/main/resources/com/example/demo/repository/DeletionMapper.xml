@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.repository.DeletionMapper">
+	<select id="findAll"
+		resultType="com.example.demo.entity.ItemEntity">
+		SELECT m.material_id,
+		m.material_name
+		, p.regular_price,
+		p.material_stock
+		FROM material AS m
+		RIGHT OUTER JOIN product AS p
+		ON
+		m.material_id = p.material_id
+		WHERE deleted_flg = 1;
+	</select>
+
+	<update id="update">
+		UPDATE product SET deleted_flg = 0
+		WHERE material_id =
+		#{id}
+	</update>
+
+	<update id="item_update">
+		UPDATE material SET material_name = #{name} WHERE
+		material_id = #{id}
+	</update>
+
+	<update id="item_update_stock">
+		UPDATE product SET regular_price = #{price} ,
+		material_stock = #{stock}
+		WHERE material_id = #{id}
+	</update>
+
+	<delete id="delete">
+		DELETE material,product
+		FROM material
+		RIGHT OUTER JOIN
+		product
+		ON material.material_id = product.material_id
+		WHERE
+		material.material_id = #{id}
+	</delete>
+</mapper>
